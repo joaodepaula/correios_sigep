@@ -16,10 +16,8 @@ module CorreiosSigep
       def process_response response
         correios_hash = response.body[:cancelar_pedido_response][:return]
 
-        binding.pry
-
-        check_sro_errors(correios_hash) # FIXME
-        correios_response(correios_hash[:objeto_postal][:datahora_cancelamento]) || begin raise Models::Errors::SRONotReady; end
+        check_sro_errors(correios_hash)
+        correios_response(correios_hash[:objeto_postal][:datahora_cancelamento]) || begin raise Models::Errors::CollectNumberNotFound; end
       end
 
       def correios_response response
